@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSnapshot } from 'valtio';
 
 import state from '../store';
+import { Custombutton } from '../components';
 
 import {
   headContainerAnimation,
@@ -41,7 +42,11 @@ const Home = () => {
               <p className="max-w-md font-normal text-gray-600 text-base">
               Create your unique and exclusive shirt with our brand-new 3D customization tool. <strong>Unleash your imagination</strong>{" "} and define your own style.
               </p>
-
+             <Custombutton
+             type='filled'
+             title='Customize it'
+             handleClick={()=>state.intro=false}
+             />
            
             </motion.div>
           </motion.div>
