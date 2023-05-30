@@ -28,10 +28,18 @@ function Customizer() {
         return <ColorPicker />
       case "filepicker":
         return <Filepicker
+        file={file}
+        setFile={setFile}
+        readFile={readFile}
+
          
         />
       case "aipicker":
         return <Aipicker
+        prompt={prompt}
+        setPrompt={setPrompt}
+        generatingImg={generatingImg}
+        handleSubmit={handleSubmit}
       
         />
       default:
@@ -39,6 +47,56 @@ function Customizer() {
     }
   }
 
+  const handleSubmit=async(type)=>{
+    if(!prompt) return alert('Please enter a prompt')
+    try{
+
+    }
+    catch(error){
+      alert(error)
+    }
+    finally{
+      setGeneratingImg(false)
+      setActiveEditorTab("")
+    }
+  }
+  const handleDecals=(type,result)=>{
+    const decalType=DecalTypes[type]
+    state[decalType.stateProperty]=result;
+    if(!activeFilterTab[decalType.filterTab]){
+      handleActiveFilterTab(decalType.filterTab)
+
+    }
+
+  }
+  const handleActiveFilterTab=(tabName)=>{
+    switch(tabName){
+      case "logoShirt":
+      state.isLogoTexture=!activeFilterTab[tabName];
+      break;
+    
+     case "stylishShirt":
+      state.isFullTexture=!activeFilterTab[tabName];
+     default:
+      state.isFullTexture=false;
+      state.isLogoTexture=true;
+
+    }
+
+    setActiveFilterTab((prevState)=>{
+      return{
+      ...prevState,
+      [tabName]:!prevState[tabName]
+      }
+    })
+  }
+
+  const readFile=(type)=>{
+    reader(file).then((result)=>{
+      handleDecals(type,result);
+      setActiveEditorTab("")
+    })
+  }
   return (
     <AnimatePresence>
     {!snap.intro && (
